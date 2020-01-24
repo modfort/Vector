@@ -1,15 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "vector.h"
 
-
-typedef struct vector
-{
-	int *data;
-	size_t size,capacity;
-}vector;
 	
 vector initvector(size_t capacity)
-{
+{	/*if(capacity<10)
+		capacity=10;*/
 	vector new;
 	new.data=(int*)malloc(sizeof(int)*capacity);
 	new.capacity=capacity;
@@ -17,6 +11,7 @@ vector initvector(size_t capacity)
 	return new;
 
 }
+
 void copy(vector *dest , vector *src)
 {
 	if(dest->capacity<src->size)
@@ -32,18 +27,17 @@ void copy(vector *dest , vector *src)
 
 void fill(vector* t , int v){
 	size_t i;
-	for ( i = 0; i < t->capacity-1; ++i)
+	for ( i = 0; i < t->capacity; ++i)
 		t->data[i]=v;
+
 	t->size=t->capacity-1;
 }
 
 void printvector(vector t)
 {
 	size_t i;
-	for (i = 0; i < t.capacity; ++i)
-	{
-		printf("%d\n",t.data[i] );
-	}
+	for (i = 0; i < t.size; ++i)
+		printf("%d\n",t.data[i]);
 }
 
 void reserve(vector *t)
@@ -56,15 +50,17 @@ void reserve(vector *t)
 	free(t->data);
 	t->data=(int*)malloc(sizeof (int)*t->capacity*2);
 	t->capacity*=2;
+	printf("entre dans reserve %d\n",t->capacity);
 	copy(t,tmp);
 }
 
 void pushback(vector *t,int v)
 {	if(t->size>=t->capacity)
 		reserve(t);
-	t->data[t->size]=v;	
-	t->size++;
+	t->data[t->size]=v;
+	t->size++;	
 }
+
 void freevector(vector *t)
 {
 	free(t->data);
@@ -73,15 +69,6 @@ void freevector(vector *t)
 
 int main(int argc, char const *argv[])
 {
-	vector test;
-	test=initvector(10);
-	fill(&test,5);
-	for (int i = 0; i <= 10; ++i)
-	{
-		/* code */
-	pushback(&test,i);
-	}
-	printvector(test);
-	freevector(&test);
+
 	return 0;
 } 
